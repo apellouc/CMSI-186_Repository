@@ -6,20 +6,20 @@
  *  Author        :  Amy Pellouchoud
  *  Date          :  2017-01-24
  *  Description   :  This file provides the supporting methods for the CountTheDays program which will
- *                   calculate the number of days between two dates.  It shows the use of modularization
- *                   when writing Java code, and how the Java compiler can "figure things out" on its
- *                   own at "compile time".  It also provides examples of proper documentation, and uses
- *                   the source file header template as specified in the "Greeter.java" template program
- *                   file for use in CMSI 186, Spring 2017.
+ *                   calculate the number of days between two dates.
  *  Notes         :  None
  *  Warnings      :  None
  *  Exceptions    :  None
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  *  Revision History
  *  ----------------
- *            Rev      Date     Modified by:  Reason for change/modification
- *           -----  ----------  ------------  -----------------------------------------------------------
- *  @version 1.0.0  2017-01-02  B.J. Johnson  Initial writing and release
+ *            Rev      Date     Modified by:      Reason for change/modification
+ *           -----  ----------  ------------      -----------------------------------------------------------
+ *  @version 1.0.0  2017-01-02  B.J. Johnson      Initial writing and release
+ *  @version 1.0.1  2017-01-19  Amy Pellouchoud   Wrote Leap Year program, studied instructions and tester
+ *  @version 1.0.2  2017-01-24  Amy Pellouchoud   Made progress on steps 1-3 of homework 01
+ *  @version 1.0.3  2017-01-25  Amy Pellouchoud   Completed all methods EXCEPT for daysBetween
+ *  @version 1.0.4  2017-01-26  Amy Pellouchoud   Refined all methods, Successfully completed daysBetween method, with lots of extra help :)
  */
 public class CalendarStuff {
 
@@ -71,13 +71,13 @@ public class CalendarStuff {
    */
 
    public static boolean isLeapYear( long year ) {
-     if ( (year % 400) == 0 ) {
-        return true;
-     } else if ( (year % 100) == 0) {
-        return false;
-     } else if ( (year % 4) == 0) {
-        return true;
-     } else return false;
+       if ( (year % 400) == 0 ) {
+           return true;
+       } else if ( (year % 100) == 0) {
+           return false;
+       } else if ( (year % 4) == 0) {
+           return true;
+       } else return false;
    }
 
   /**
@@ -90,13 +90,13 @@ public class CalendarStuff {
    */
 
    public static long daysInMonth( long month, long year ) {
-       switch ((int)month) {
-           case 1: case 3: case 5: case 7: case 8: case 10: case 12:
+       switch ((int)month - 1) {
+           case JANUARY: case MARCH: case MAY: case JULY: case AUGUST: case OCTOBER: case DECEMBER:
                return 31;
-           case 4: case 6: case 9: case 11:
+           case APRIL: case JUNE: case SEPTEMBER: case NOVEMBER:
                return 30;
-           case 2:
-               if (isLeapYear(year) && month == 2) {
+           case FEBRUARY:
+               if (isLeapYear(year)) {
                    return 29;
                } else {
                    return 28;
@@ -104,8 +104,8 @@ public class CalendarStuff {
            default:
                System.out.println("Invalid Input.");
                return -1;
-     }
-  }
+       }
+    }
 
   /**
    * A method to determine if two dates are exactly equal
@@ -117,9 +117,10 @@ public class CalendarStuff {
    * @param    year2  long    containing four-digit year
    * @return          boolean which is true if the two dates are exactly the same
    */
+
    public static boolean dateEquals( long month1, long day1, long year1, long month2, long day2, long year2 ) {
-      return (month1 == month2 && day1 == day2 && year1 == year2);
-   }
+       return (month1 == month2 && day1 == day2 && year1 == year2);
+    }
 
   /**
    * A method to compare the ordering of two dates
@@ -161,11 +162,11 @@ public class CalendarStuff {
    */
 
    public static boolean isValidDate( long month, long day, long year ) {
-     if ( (year > 0) && ((1 <= month) && (month <= 12)) && ((0 < day) && (day <= daysInMonth(month, year))) ) {
-       return true;
-     } else {
-       return false;
-     }
+       if ( (year > 0) && ((1 <= month) && (month <= 12)) && ((0 < day) && (day <= daysInMonth(month, year))) ) {
+           return true;
+       } else {
+           return false;
+       }
    }
 
    /**
@@ -202,23 +203,31 @@ public class CalendarStuff {
    */
 
    public static long daysBetween( long month1, long day1, long year1, long month2, long day2, long year2 ) {
+       long dayCount = 0;
+       if (compareDate(month1, day1, year1, month2, day2, year2) == 1) {
+           return daysBetween(month2, day2, year2, month1, day1, year1);
+        }
+       if (dateEquals(month1, day1, year1, month2, day2, year2)) {
+           return dayCount;
+        }
 
+       while (compareDate(month1, day1, year1, month2, day2, year2) == -1)  {
 
-    for (isValidDate(month1, day1, year1); isValidDate(month2, day2, year2); ) {
-        if (dateEquals(month1, day1, year1, month2, day2, year2)) {
-          long dayCount = 0;
-      } else if (compareDate(month1, day1, year1, month2, day2, year2) == 1) {
-          daysBetween(month2, day2, year2, month1, day1, year1);
-      } else {
-            for (long i = year1; i < year2; i++) {
-              for (long j = month1; j <= 12; j++) {
-                for (long k = day1; k <= daysinMonth(j); k++) {
-                  dayCount++;
-                }
-              }
-            }
-      }
-      return dayCount;
+           dayCount++;
+           day1++;
+
+           if (day1 > daysInMonth(month1, year1)) {
+               month1++;
+               day1 = 1;
+             }
+
+           if ((month1 - 1) > DECEMBER) {
+               year1++;
+               month1 = (JANUARY + 1);
+             }
+        }
+
+      return dayCount ;
+
     }
-  }
-
+}
