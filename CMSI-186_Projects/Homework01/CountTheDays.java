@@ -15,7 +15,8 @@
  *            Rev      Date     Modified by:    Reason for change/modification
  *           -----  ----------  ------------    -----------------------------------------------------------
  *  @version 1.0.0  2017-01-25  A. Pellouchoud  Initial writing and release
- *  @version 1.0.1  2017-01-26  A. Pellouchoud  Completed program
+ *  @version 1.0.1  2017-01-26  A. Pellouchoud  Worked on program
+ *  @version 1.0.2  2017-01-28  A. Pellouchoud  Fixed problems and finished program
  */
 
 public class CountTheDays {
