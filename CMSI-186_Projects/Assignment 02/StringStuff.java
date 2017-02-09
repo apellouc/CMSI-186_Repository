@@ -23,7 +23,7 @@
  *  @version 1.4.0  2017-02-04  A. Pellouchoud  Fixed problem with identifiers
  *  @version 1.5.0  2017-02-07  A. Pellouchoud  Wrote evensOnly and oddsOnly
  *  @version 1.6.0  2017-02-08  A. Pellouchoud  Wrote evensOnlyNoDupes and oddsOnlyNoDupes, tried to fix issues
- *  @version 1.7.0  2017-02-09  A. Pellouchoud  Tried to fix evensOnlyNoDupes and oddsOnlyNoDupes :(
+ *  @version 1.7.0  2017-02-09  A. Pellouchoud  Fixed evensOnlyNoDupes and oddsOnlyNoDupes 
  *
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 import java.util.Set;
