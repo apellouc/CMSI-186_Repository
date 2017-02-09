@@ -135,16 +135,12 @@ public class StringStuff {
          return allEvens;
       }
 
-      result = result.concat( Character.toString( allEvens.charAt(0) ) );
-
-      for ( int i = 1; i < allEvens.length(); i++ ) {
-         for ( int j = 0; j < allEvens.charAt(i); j++ ) {
-            if ( allEvens.charAt(i) == allEvens.charAt(j) ) {
-            break;
+      for ( int i = 0; i < allEvens.length(); i++ ) {
+         if ( result.contains( Character.toString( allEvens.charAt(i) ) ) ) {
+            continue;
           } else {
             result = result.concat( Character.toString( allEvens.charAt(i) ) );
           }
-         }
       }
 
       return result;
@@ -168,20 +164,17 @@ public class StringStuff {
          return allOdds;
       }
 
-      result = result.concat( Character.toString( allOdds.charAt(0) ) );
-
-      for ( int i = 1; i < allOdds.length(); i++ ) {
-         for ( int j = 0; j < allOdds.charAt(i); j++ ) {
-            if ( allOdds.charAt(i) == allOdds.charAt(j) ) {
-            break;
+      for ( int i = 0; i < allOdds.length(); i++ ) {
+         if ( result.contains( Character.toString( allOdds.charAt(i) ) ) ) {
+            continue;
           } else {
             result = result.concat( Character.toString( allOdds.charAt(i) ) );
           }
-         }
       }
 
       return result;
    }
+
 
   /**
    * Method to return the reverse of a string passed as an argument
