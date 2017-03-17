@@ -1,14 +1,14 @@
 /** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  *  File name     :  Clock.java
  *  Purpose       :  Provides a class defining methods for the ClockSolver class
- *  @author       :  B.J. Johnson
+ *  @author       :  Amy Pellouchoud
  *  Date written  :  2017-02-28
  *  Description   :  This class provides a bunch of methods which may be useful for the ClockSolver class
- *                   for Homework 4, part 1.  Includes the following:
- *
- *  Notes         :  None right now.  I'll add some as they occur.
+ *                   for Homework 4, part 1.
+ *  Notes         :  None
  *  Warnings      :  None
  *  Exceptions    :  IllegalArgumentException when the input arguments are "hinky"
+                     NumberFormatException when the input string is not a number
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  *  Revision History
  *  ----------------
@@ -17,8 +17,11 @@
  *  @version 1.0.0  2017-02-28  B.J. Johnson   Initial writing and release
  *  @version 1.1.0  2017-03-02  A. Pellouchoud Wrote constructor, tick, and validateAngleArg, added definitions
  *  @version 1.2.0  2017-03-14  A. Pellouchoud Wrote tests, wrote all methods besides getHandAngle()
- *  @version 1.3.0  2017-03-15  A. Pellouchoud Wrote getHandAngle(), Polished & finished program
+ *  @version 1.3.0  2017-03-15  A. Pellouchoud Wrote getHandAngle()
+ *  @version 1.4.0  2017-03-16  A. Pellouchoud Finished Program
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+
+import java.text.DecimalFormat;
 
 public class Clock {
   /**
@@ -27,11 +30,14 @@ public class Clock {
    *        the minute and hour hand every minute (+ 5.5 degrees)
    */
    private double seconds;
-   private int minutes;
-   private int hours;
+   private int    minutes;
+   private int    hours;
    private double timeslice;
+   private double hourHandAngle;
+   private double minuteHandAngle;
+   private double handAngle;
    private static final double SECONDS_IN_MINUTE = 60;
-   private static final int MINUTES_IN_HOUR = 60;
+   private static final int    MINUTES_IN_HOUR = 60;
    private static final double DEFAULT_TIME_SLICE_IN_SECONDS = 60.0;
    private static final double INVALID_ARGUMENT_VALUE = -1.0;
    private static final double MAXIMUM_DEGREE_VALUE = 360.0;
@@ -39,7 +45,7 @@ public class Clock {
    private static final double DEGREE_CHANGE_PER_MINUTE = 5.5;
 
   /**
-   *  Constructor goes here
+   *  Constructor
    */
    public Clock() {
 
@@ -52,6 +58,7 @@ public class Clock {
 
   /**
    *  Second constructor for Clock with inputted timeSlice instead of default
+   *  @param   timeSlice   Timeslice input
    */
    public Clock( double timeSlice ) {
 
@@ -94,14 +101,14 @@ public class Clock {
    *  Method to validate the angle argument
    *  @param   argValue  String from the main programs args[0] input
    *  @return  double-precision value of the argument
-   *  @throws  NumberFormatException
+   *  @throws  NumberFormatException, @throws IllegalArgumentException
    */
-   public static double validateAngleArg( String argValue ) throws NumberFormatException {
+   public static double validateAngleArg( String argValue ) throws NumberFormatException, IllegalArgumentException {
 
       double retVal = Double.parseDouble( argValue );
 
       if (( retVal > MAXIMUM_DEGREE_VALUE ) || ( retVal < 0 )) {
-         throw new NumberFormatException( "Input must be a NUMBER between 0 and 360 degrees" );
+         throw new IllegalArgumentException( "Out of range - Input Angle must be a NUMBER between 0 and 360 degrees" );
       }
 
       return retVal;
@@ -117,14 +124,14 @@ public class Clock {
    *         this is a DESIGN DECISION, not a requirement!
    *  note: remember that the time slice, if it is small will cause the simulation
    *         to take a VERY LONG TIME to complete!
+   *  @throws NumberFormatException, @throws IllegalArgumentException
    */
-   public static double validateTimeSliceArg( String argValue ) {
+   public static double validateTimeSliceArg( String argValue ) throws NumberFormatException, IllegalArgumentException {
 
       double retVal = Double.parseDouble( argValue );
 
       if (( retVal > MAXIMUM_SLICE ) || ( retVal < 0 )) {
-         throw new NumberFormatException( "Input must be a NUMBER between 0 and 1800 seconds" );
-         // return INVALID_ARGUMENT_VALUE; -- unreachable
+         throw new IllegalArgumentException( "Out of range - Input Time Slice must be a NUMBER between 0 and 1800 seconds" );
       }
 
       return retVal;
@@ -159,8 +166,9 @@ public class Clock {
       double retValHours = (double) this.hours;
       double retValMinutes = (double) this.minutes;
 
-      //variable to calculate angle between hour hand and minute hand.
-      double handAngle = ( ( retValHours * MINUTES_IN_HOUR ) + retValMinutes ) * DEGREE_CHANGE_PER_MINUTE;
+      this.hourHandAngle = ( ( retValHours * MINUTES_IN_HOUR ) + retValMinutes + (this.seconds / SECONDS_IN_MINUTE) ) * 0.5;
+      this.minuteHandAngle = ( retValMinutes + ( this.seconds / SECONDS_IN_MINUTE ) ) * 6;
+      this.handAngle = Math.abs( this.minuteHandAngle - this.hourHandAngle );
 
       return handAngle;
    }
@@ -171,7 +179,10 @@ public class Clock {
    */
    public String toString() {
 
-      return this.hours + ":" + this.minutes + ":" + this.seconds;
+      DecimalFormat df = new DecimalFormat( "#0.00" );
+
+      return this.hours + ":" + this.minutes + ":" + df.format(this.seconds);
+
    }
 
   /**
@@ -205,11 +216,11 @@ public class Clock {
       try { System.out.println( (360.0 == clock.validateAngleArg( "360" )) ? " - got 360.0" : " - No luck" ); }
       catch( Exception e ) { System.out.println ( "\n    - Exception thrown: " + e.toString() ); }
 
-      System.out.print( "    Sending '-1 degrees', expecting NumberFormatException:" );
+      System.out.print( "    Sending '-1 degrees', expecting IllegalArgumentException:" );
       try { System.out.println( (-1.0 == clock.validateAngleArg( "-1" )) ? " - got -1.0" : " - No luck" ); }
       catch( Exception e ) { System.out.println ( "\n    - Exception thrown: " + e.toString() ); }
 
-      System.out.print( "    Sending '100000 degrees', expecting NumberFormatException:" );
+      System.out.print( "    Sending '100000 degrees', expecting IllegalArgumentException:" );
       try { System.out.println( (100000.0 == clock.validateAngleArg( "100000" )) ? " - got 100000.0" : " - No luck" ); }
       catch( Exception e ) { System.out.println ( "\n    - Exception thrown: " + e.toString() ); }
 
@@ -233,11 +244,11 @@ public class Clock {
       try { System.out.println( (0.0 == clock.validateTimeSliceArg( "0.0" )) ? " - got 0.0" : " - No luck" ); }
       catch( Exception e ) { System.out.println ( "\n    - Exception thrown: " + e.toString() ); }
 
-      System.out.print( "    Sending '-10 seconds', expecting NumberFormatException:" );
+      System.out.print( "    Sending '-10 seconds', expecting IllegalArgumentException:" );
       try { System.out.println( (-10 == clock.validateTimeSliceArg( "-10" )) ? " - got -10.0" : " - No luck" ); }
       catch( Exception e ) { System.out.println ( "\n    - Exception thrown: " + e.toString() ); }
 
-      System.out.print( "    Sending '100000 seconds', expecting NumberFormatException:" );
+      System.out.print( "    Sending '100000 seconds', expecting IllegalArgumentException:" );
       try { System.out.println( (100000.0 == clock.validateTimeSliceArg( "100000" )) ? " - got 100000.0" : " - No luck" ); }
       catch( Exception e ) { System.out.println ( "\n    - Exception thrown: " + e.toString() ); }
 
@@ -248,7 +259,7 @@ public class Clock {
       //Tick the clock for further testing
 
       System.out.println( "\n  Ticking the clock twice for further testing...." );
-      System.out.println( "    *NOTE* Timeslice of the tick is defaulted at 60 seconds. Should return 0:2:0.0");
+      System.out.println( "    *NOTE* Timeslice of the tick is defaulted at 60 seconds. Should return 0:2:0.00");
       clock.tick();
       clock.tick();
       System.out.println( "    The clock now reads: " + clock.toString() );
@@ -270,12 +281,12 @@ public class Clock {
 
       //Tick clock to test new reading for getHandAngle()
 
-      System.out.println( "    Ticking the clock 23 more times" );
+      System.out.println( "\n    Ticking the clock 23 more times" );
       for (int i = 0; i < 23; i++) {
          clock.tick();
       }
       System.out.println( "    The clock now reads: " + clock );
-      System.out.println( "    Expecting returned Angle 137.5: " + clock.getHandAngle() );
+      System.out.println( "\n    Expecting returned Angle 137.5: " + clock.getHandAngle() );
 
    }
 }
