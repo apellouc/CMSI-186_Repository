@@ -16,7 +16,8 @@
  *  @version 1.1.0  2017-03-28  A. Pellouchoud  Wrote Field constructor and organized plan
  *  @version 1.2.0  2017-03-30  A. Pellouchoud  Created ballCollide() and ballDistance()
  *  @version 1.3.0  2017-03-31  A. Pellouchoud  Werked on it
- *  @version 1.4.0  2017-04-01  A. Pellouchoud  Fixed distance methods, attempted to make
+ *  @version 1.4.0  2017-04-01  A. Pellouchoud  Fixed distance methods, attempted to make loop work
+ *  @version 1.5.0  2017-04-03  A. Pellouchoud  Further attempts to fix the loop with help from prof.
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
 public class Field {
@@ -26,7 +27,7 @@ public class Field {
     */
     private static final double FIELD_LENGTH = 300;
     private static final double FIELD_WIDTH = 300;
-    private Ball[] ballArray;
+    public Ball[] ballArray;
 
     /**
      * constructor //ballcount determined by args.length math! Set args array values into each new ball.
@@ -35,8 +36,19 @@ public class Field {
 
       ballArray = new Ball[ballCount];
 
-      for ( int i = 0; i < ballCount; i++ ) {
-         ballArray[i] = new Ball( 0, 0, 0, 0 );
+      int j = 0;
+      double xPos = 0.0;
+      double yPos = 0.0;
+      double dX   = 0.0;
+      double dY   = 0.0;
+
+      for( int i = 0; i < ballArray.length; i += 4 ) {
+         xPos = Double.parseDouble( args[i] );
+         yPos = Double.parseDouble( args[i + 1] );
+         dX   = Double.parseDouble( args[i + 2] );
+         dY   = Double.parseDouble( args[i + 3] );
+         ballArray[j] = new Ball( xPos, yPos, dX, dY );
+         j++;
       }
 
    }
@@ -55,12 +67,6 @@ public class Field {
      }
 
 
-     //new approach
-     public Ball[] retrieveBallArray() {
-
-      return ballArray;
-     }
-
 
     /**
      *  Method to calculate and return the length & width of the field
@@ -75,6 +81,24 @@ public class Field {
       field[1] = FIELD_WIDTH;
 
       return field;
+    }
+
+    /**
+    *  Method to check if a ball is out of bounds in the field
+    *  @param b1 Ball
+    *  @return boolean value true if out of the field, false if still in field
+    */
+
+    public boolean ballOutOfBounds( Ball b1 ) {
+
+      if ( ( b1.getBallXPOS() > ( FIELD_WIDTH / 2 ) ) ||
+           ( b1.getBallXPOS() < ( -150 ) ) ) {
+         return true;
+      } else if ( ( b1.getBallYPOS() > ( FIELD_LENGTH / 2 ) ) ||
+                  ( b1.getBallYPOS() < ( -150 ) ) ) {
+         return true;
+      } else return false;
+
     }
 
     /**
@@ -128,3 +152,4 @@ public class Field {
 
 
 }
+
