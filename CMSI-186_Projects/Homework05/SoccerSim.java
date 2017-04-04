@@ -1,9 +1,10 @@
 /** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  *  File name     :  SoccerSim.java
- *  Purpose       :  Main Program for use with Ball.java
+ *  Purpose       :  Main Program for use with Ball.java, Clock.java, Pole.java, and Field.java
  *  @author       :  Amy Pellouchoud
  *  Date written  :  2017-03-21
- *  Description   :
+ *  Description   :  Soccer simulation that calculates collisions between balls and a pole on a field
+ *                   with dimensions 300x300.
  *  Notes         :  None
  *  Warnings      :  None
  *  Exceptions    :
@@ -17,7 +18,8 @@
  *  @version 1.2.0  2017-03-30  A. Pellouchoud  Made clock with optional timeSlice input
  *  @version 1.3.0  2017-03-31  A. Pellouchoud  Worked on it
  *  @version 1.4.0  2017-04-01  A. Pellouchoud  Worked on it
- *  @version 1.5.0  2017-04-03  A. Pellouchoud  Worked on it
+ *  @version 1.5.0  2017-04-02  A. Pellouchoud  Worked on it
+ *  @version 1.6.0  2017-04-03  A. Pellouchoud  Fixed whole main project loop w/ prof and did lots of work 
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
@@ -29,6 +31,7 @@ public class SoccerSim {
     *  Class field definintions
     */
     private static double timeSlice;
+    private static int ballCount;
     private static final double DEFAULT_TIME_SLICE_IN_SECONDS = 10.0;
 
    /**
@@ -43,8 +46,13 @@ public class SoccerSim {
 
 
       //New Field initiated
-      int ballCount = ( ( args.length - 1 ) / 4 );
-      Field f1 = new Field( ballCount );
+      if ( ( args.length % 4 ) == 0 ) {
+         ballCount = ( args.length / 4 );
+      } else if ( ( args.length % 4 ) == 1 ) {
+         ballCount = ( ( args.length - 1 ) / 4 );
+      }
+
+      Field f1 = new Field( ballCount, args );
 
       //Initializes clock with inputted timeSlice OR default timeSlice of 10 seconds
       if ( ( args.length % 4 ) == 1 ) {
@@ -60,59 +68,61 @@ public class SoccerSim {
       double randomVal2 = Math.random() * 300;
       Pole p1 = new Pole( randomVal1, randomVal2 );
 
-      //balls
-      Ball b1 = f1.ballArray[0];
-      Ball b2 = f1.ballArray[1];
-      Ball b3 = f1.ballArray[2];
-      Ball b4 = f1.ballArray[3];
-      Ball b5 = f1.ballArray[4];
-      Ball b6 = f1.ballArray[5];
-      Ball b7 = f1.ballArray[6];
-      Ball b8 = f1.ballArray[7];
-      Ball b9 = f1.ballArray[8];
-      Ball b10 = f1.ballArray[9];
-
-
+      //Print out program info for the user
       System.out.println( "\nWelcome to Soccer Sim!" );
       System.out.println( "--------------------------" );
       System.out.println( "Inputted Args: " + Arrays.toString(args) );
+      System.out.println( f1.getFieldValues() );
+      System.out.println( "Ballcount: " + ballCount );
       System.out.println( "Flag Pole Position [randomized]: " + p1.toString() );
 
-
-
-
-      while (true) {
-
-         System.out.println( "Time: " + c1.toString() );
+      //Main loop
+      while ( true ) {
 
          //Print all the balls toString
+         System.out.println( "\nList of each ball's position and velocity at time " + c1.toString() + "--" );
          for ( int i = 0; i < ballCount; i++ ) {
-            f1.ballArray[i].toString();
+            System.out.println( ( i + 1 ) + "-- " + f1.ballArray[i].toString());
          }
 
          //Check for collisions between balls
-         if ( f1.ballCollide( b1, b2 ) ) {
-            System.out.println( "Collision at: " + c1.toString() );
-            System.exit(0);
-         } else if ( f1.ballCollide ( b2, b3 ) ) {
-            System.out.println( "Collision at: " + c1.toString() );
-            System.exit(0);
-         } else if ( f1.ballCollide ( b1, b3 ) ) {
-            System.out.println( "Collision at: " + c1.toString() );
-            System.exit(0);
-         } else continue;
+         for ( int i = 0; i < ballCount - 1 ; i++ ) {
+            for ( int j = i + 1; j < ballCount; j++ ) {
+
+               if ( f1.ballCollide( f1.ballArray[i], f1.ballArray[j] ) ) {
+                  System.out.println( "\nBall collision: Ball " + ( i + 1 ) + " and Ball " + ( j + 1 ) );
+                  System.out.println( "Time: " + c1.toString() );
+                  System.exit(0);
+               }
+            }
+         }
 
          //Check for collisions with Pole
+         for ( int i = 0; i < ballCount; i++ ) {
+
+            if ( f1.poleCollide( f1.ballArray[i], p1 ) ) {
+               System.out.println( "Pole collision: Ball " + ( i + 1 ) );
+               System.out.println( "Time: " + c1.toString() );
+               System.exit(0);
+            }
+         }
 
          //If all balls out of Bounds, print out no collisions and end the program
+         for ( int i = 0; i < ballCount; i++ ) {
+
+            if ( f1.ballOutOfBounds( f1.ballArray[i] ) ) {
+               System.out.println( "No collisions" );
+               System.exit(0);
+            }
+         }
 
          //If no collisions, tick the clock, move the balls, and try again
          c1.tick();
 
+         for ( int i = 0; i < ballCount; i++ ) {
+            f1.ballArray[i].moveBall();
          }
 
       }
-
-
    }
-
+}
