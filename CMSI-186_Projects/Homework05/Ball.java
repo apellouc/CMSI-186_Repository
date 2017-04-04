@@ -38,8 +38,17 @@ public class Ball {
 
     /**
      *  Constructor
+     *  @throws IllegalArgumentException, @throws NumberFormatException
      */
      public Ball( double x, double y, double a, double b ) {
+
+        if ( ( x > 300 ) || ( x < -300 ) ) {
+           throw new IllegalArgumentException( " Ball xpos must be within the field " );
+        }
+
+        if ( ( y > 300 ) || ( y < -300 ) ) {
+           throw new IllegalArgumentException( " Ball ypos must be within the field " );
+        }
 
         xpos = x;
         ypos = y;
