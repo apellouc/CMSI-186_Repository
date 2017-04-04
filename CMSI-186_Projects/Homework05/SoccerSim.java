@@ -79,7 +79,7 @@ public class SoccerSim {
       while ( true ) {
 
          //Print all the balls toString
-         System.out.println( "\nList of each ball's position and velocity at time " + c1.toString() + "--" );
+         System.out.println( "\nBalls at time " + c1.toString() + "--" );
          for ( int i = 0; i < ballCount; i++ ) {
             System.out.println( ( i + 1 ) + "-- " + f1.ballArray[i].toString());
          }
@@ -107,35 +107,36 @@ public class SoccerSim {
          }
 
          //If all balls out of Bounds, print out no collisions and end the program
-         int outOfBoundsCount = 0;
-
          for ( int i = 0; i < ballCount; i++ ) {
 
-            if ( f1.ballOutOfBounds( f1.ballArray[i] ) ) {
-               outofBoundsCount += 1;
-            }
-         }
+            int outOfBoundsCount = 0;
 
-         if ( outOfBoundsCount == ballCount ) {
-            System.out.println( "Balls out of bounds: No collisions" );
-            System.exit(0);
+            if ( f1.ballOutOfBounds( f1.ballArray[i] ) ) {
+               outOfBoundsCount = outOfBoundsCount + 1;
+            }
+
+            if ( outOfBoundsCount == ballCount ) {
+               System.out.println( "Balls out of bounds: No collisions" );
+               System.exit(0);
+            }
+
          }
 
          //If all balls at rest, print out no collisions and end the programs
-         int atRestCount = 0;
-
          for ( int i = 0; i < ballCount; i++ ) {
 
+            int atRestCount = 0;
+
             if ( f1.ballAtRest( f1.ballArray[i] ) ) {
-               atRestCount += 1;
+               atRestCount = atRestCount + 1;
             }
-         }
 
-         if ( atRestCount == ballCount ) {
-            System.out.println( "Balls at rest: No collisions" );
-            System.exit(0);
-         }
+            if ( atRestCount == ballCount ) {
+               System.out.println( "Balls at rest: No collisions" );
+               System.exit(0);
+            }
 
+         }
 
          //If no collisions, tick the clock, move the balls, and try again
          c1.tick();
