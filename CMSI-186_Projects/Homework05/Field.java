@@ -17,7 +17,8 @@
  *  @version 1.2.0  2017-03-30  A. Pellouchoud  Created ballCollide() and ballDistance()
  *  @version 1.3.0  2017-03-31  A. Pellouchoud  Werked on it
  *  @version 1.4.0  2017-04-01  A. Pellouchoud  Fixed distance methods, attempted to make loop work
- *  @version 1.5.0  2017-04-03  A. Pellouchoud  Further attempts to fix the loop with help from prof.
+ *  @version 1.5.0  2017-04-02  A. Pellouchoud  Further attempts to fix the loop with help from prof.
+ *  @version 1.6.0  2017-04-03  A. Pellouchoud  Fixed Field Constructor and cleaned up program
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
 public class Field {
@@ -30,43 +31,27 @@ public class Field {
     public Ball[] ballArray;
 
     /**
-     * constructor //ballcount determined by args.length math! Set args array values into each new ball.
+     * constructor
      */
-    public Field( int ballCount ) {
+    public Field( int ballCount, String[] args ) {
 
-      ballArray = new Ball[ballCount];
-
-      int j = 0;
+      this.ballArray = new Ball[ballCount];
       double xPos = 0.0;
       double yPos = 0.0;
       double dX   = 0.0;
       double dY   = 0.0;
 
-      for( int i = 0; i < ballArray.length; i += 4 ) {
+      for ( int i = 0, j = 0; j < ballArray.length; i += 4, j++ ) {
+
          xPos = Double.parseDouble( args[i] );
          yPos = Double.parseDouble( args[i + 1] );
          dX   = Double.parseDouble( args[i + 2] );
          dY   = Double.parseDouble( args[i + 3] );
+
          ballArray[j] = new Ball( xPos, yPos, dX, dY );
-         j++;
       }
 
    }
-
-//Make a method to get each ball values FROM this array!
-
-    /**
-     *  Method to return a specific ball from the ball array
-     *  @param i Specifies which ball in the array to return
-     *  @return
-     *  @throws
-     */
-     public Ball retrieveBall( int i ) {
-
-       return ballArray[ i - 1 ];
-     }
-
-
 
     /**
      *  Method to calculate and return the length & width of the field
@@ -74,13 +59,9 @@ public class Field {
      *  @return double-precision array of the field's dimensions
      *  @throws
      */
-    public double[] getFieldValues() {
+    public String getFieldValues() {
 
-      double[] field = new double [2];
-      field[0] = FIELD_LENGTH;
-      field[1] = FIELD_WIDTH;
-
-      return field;
+      return "The field is " + FIELD_LENGTH + " by " + FIELD_WIDTH ;
     }
 
     /**
@@ -134,7 +115,7 @@ public class Field {
     }
 
     /**
-    *  Method to calculate distance between two balls
+    *  Method to calculate distance between the pole and an inputted ball
     *  @param b1 First ball
     *  @param b2 Second ball
     *  @return double-precision value of distance between two balls
@@ -150,6 +131,19 @@ public class Field {
       return retVal;
     }
 
+    /**
+    *  Method to check if a ball and the pole collide
+    *  @param b1 Ball
+    *  @param p1 Pole
+    *  @return boolean value true if collision, false if no collision
+    */
+
+    public boolean poleCollide( Ball b1, Pole p1) {
+
+      if ( poleDistance( b1, p1 ) <= 4.45 ) {
+          return true;
+      } else return false;
+
+    }
 
 }
-
