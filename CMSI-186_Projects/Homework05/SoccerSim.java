@@ -107,9 +107,9 @@ public class SoccerSim {
          }
 
          //If all balls out of Bounds, print out no collisions and end the program
-         for ( int i = 0; i < ballCount; i++ ) {
 
-            int outOfBoundsCount = 0;
+         int outOfBoundsCount = 0;
+         for ( int i = 0; i < ballCount; i++ ) {
 
             if ( f1.ballOutOfBounds( f1.ballArray[i] ) ) {
                outOfBoundsCount = outOfBoundsCount + 1;
@@ -123,9 +123,9 @@ public class SoccerSim {
          }
 
          //If all balls at rest, print out no collisions and end the programs
-         for ( int i = 0; i < ballCount; i++ ) {
 
-            int atRestCount = 0;
+         int atRestCount = 0;
+         for ( int i = 0; i < ballCount; i++ ) {
 
             if ( f1.ballAtRest( f1.ballArray[i] ) ) {
                atRestCount = atRestCount + 1;
