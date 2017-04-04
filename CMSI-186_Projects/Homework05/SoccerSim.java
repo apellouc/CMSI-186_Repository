@@ -110,10 +110,20 @@ public class SoccerSim {
          for ( int i = 0; i < ballCount; i++ ) {
 
             if ( f1.ballOutOfBounds( f1.ballArray[i] ) ) {
-               System.out.println( "No collisions" );
+               System.out.println( "Balls out of bounds: No collisions" );
                System.exit(0);
             }
          }
+
+         //If all balls at rest, print out no collisions and end the programs
+         for ( int i = 0; i < ballCount; i++ ) {
+
+            if ( f1.ballAtRest( f1.ballArray[i] ) ) {
+               System.out.println( "Balls at rest: No collisions" );
+               System.exit(0);
+            }
+         }
+
 
          //If no collisions, tick the clock, move the balls, and try again
          c1.tick();
@@ -125,3 +135,4 @@ public class SoccerSim {
       }
    }
 }
+
