@@ -19,7 +19,7 @@
  *  @version 1.3.0  2017-03-31  A. Pellouchoud  Worked on it
  *  @version 1.4.0  2017-04-01  A. Pellouchoud  Worked on it
  *  @version 1.5.0  2017-04-02  A. Pellouchoud  Worked on it
- *  @version 1.6.0  2017-04-03  A. Pellouchoud  Fixed whole main project loop w/ prof and did lots of work 
+ *  @version 1.6.0  2017-04-03  A. Pellouchoud  Fixed whole main project loop w/ prof and did lots of work
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
@@ -32,7 +32,7 @@ public class SoccerSim {
     */
     private static double timeSlice;
     private static int ballCount;
-    private static final double DEFAULT_TIME_SLICE_IN_SECONDS = 10.0;
+    private static final double DEFAULT_TIME_SLICE_IN_SECONDS = 1.0;
 
    /**
     *  Main program starts here
@@ -43,7 +43,6 @@ public class SoccerSim {
       if ( ( ( args.length % 4 ) != 0 ) && ( ( args.length % 4 ) != 1 ) )  {
          throw new ArrayIndexOutOfBoundsException( "Send 4 arguments for each ball, and include timeSlice (optional) at the end" );
       }
-
 
       //New Field initiated
       if ( ( args.length % 4 ) == 0 ) {
