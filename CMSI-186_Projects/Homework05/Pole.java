@@ -3,7 +3,7 @@
  *  Purpose       :  A class defining the Pole class for use with SoccerSim.java
  *  @author       :  Amy Pellouchoud
  *  Date written  :  2017-03-23
- *  Description   :
+ *  Description   :  Defines a pole with an x position and a y position
  *  Notes         :  None
  *  Warnings      :  None
  *  Exceptions    :
