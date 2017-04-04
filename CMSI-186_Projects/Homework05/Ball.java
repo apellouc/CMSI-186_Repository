@@ -1,9 +1,10 @@
 /** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  *  File name     :  Ball.java
- *  Purpose       :  A Ball class defining methods
+ *  Purpose       :  A Ball class for use with SoccerSim.java
  *  @author       :  Amy Pellouchoud
  *  Date written  :  2017-03-21
- *  Description   :
+ *  Description   :  Defines a ball with an x position, y position, x speed, and y speed. Includes a method
+ *                   to move the ball using a friction cut to the speed.
  *  Notes         :  None
  *  Warnings      :  None
  *  Exceptions    :
