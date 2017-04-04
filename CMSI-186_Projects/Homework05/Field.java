@@ -3,7 +3,10 @@
  *  Purpose       :  A class defining the field class for use with SoccerSim.java
  *  @author       :  Amy Pellouchoud
  *  Date written  :  2017-03-23
- *  Description   :
+ *  Description   :  Defines a field 300 x 300 ft, places an inputted numer of balls on the field and
+ *                   assigns them values based on inputted args from SoccerSim.java. Contains methods
+ *                   to check distance between two balls, a ball and a pole, and collisions between any
+ *                   objects on the field.
  *  Notes         :  None
  *  Warnings      :  None
  *  Exceptions    :
@@ -28,6 +31,7 @@ public class Field {
     */
     private static final double FIELD_LENGTH = 300;
     private static final double FIELD_WIDTH = 300;
+    private static double INCHES_IN_A_FOOT = 12;
     public Ball[] ballArray;
 
     /**
@@ -65,11 +69,10 @@ public class Field {
     }
 
     /**
-    *  Method to check if a ball is out of bounds in the field
-    *  @param b1 Ball
-    *  @return boolean value true if out of the field, false if still in field
-    */
-
+     *  Method to check if a ball is out of bounds in the field
+     *  @param b1 Ball
+     *  @return boolean value true if out of the field, false if still in field
+     */
     public boolean ballOutOfBounds( Ball b1 ) {
 
       if ( ( b1.getBallXPOS() > ( FIELD_WIDTH / 2 ) ) ||
@@ -83,11 +86,11 @@ public class Field {
     }
 
     /**
-    *  Method to calculate distance between two balls
-    *  @param b1 First ball
-    *  @param b2 Second ball
-    *  @return double-precision value of distance between two balls
-    */
+     *  Method to calculate distance between two balls
+     *  @param b1 First ball
+     *  @param b2 Second ball
+     *  @return double-precision value of distance between two balls
+     */
     public double ballDistance( Ball b1, Ball b2 ) {
 
       double yDistance = b2.getBallYPOS() - b1.getBallYPOS();
@@ -100,26 +103,25 @@ public class Field {
     }
 
     /**
-    *  Method to check if two balls collide
-    *  @param b1 First ball
-    *  @param b2 Second ball
-    *  @return boolean value true if collision, false if no collision
-    */
-
+     *  Method to check if two balls collide
+     *  @param b1 First ball
+     *  @param b2 Second ball
+     *  @return boolean value true if collision, false if no collision
+     */
     public boolean ballCollide( Ball b1, Ball b2 ) {
 
-      if ( ballDistance( b1, b2 ) <= 8.9 ) {
+      if ( ballDistance( b1, b2 ) <= ( 8.9 / INCHES_IN_A_FOOT ) ) {
           return true;
       } else return false;
 
     }
 
     /**
-    *  Method to calculate distance between the pole and an inputted ball
-    *  @param b1 First ball
-    *  @param b2 Second ball
-    *  @return double-precision value of distance between two balls
-    */
+     *  Method to calculate distance between the pole and an inputted ball
+     *  @param b1 First ball
+     *  @param b2 Second ball
+     *  @return double-precision value of distance between two balls
+     */
     public double poleDistance( Ball b1, Pole p1 ) {
 
       double yDistance = p1.getPoleYPOS() - b1.getBallYPOS();
@@ -132,15 +134,14 @@ public class Field {
     }
 
     /**
-    *  Method to check if a ball and the pole collide
-    *  @param b1 Ball
-    *  @param p1 Pole
-    *  @return boolean value true if collision, false if no collision
-    */
-
+     *  Method to check if a ball and the pole collide
+     *  @param b1 Ball
+     *  @param p1 Pole
+     *  @return boolean value true if collision, false if no collision
+     */
     public boolean poleCollide( Ball b1, Pole p1) {
 
-      if ( poleDistance( b1, p1 ) <= 4.45 ) {
+      if ( poleDistance( b1, p1 ) <= ( 4.45 / INCHES_IN_A_FOOT ) ) {
           return true;
       } else return false;
 
