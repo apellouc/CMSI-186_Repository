@@ -17,10 +17,12 @@
  *  @version 1.1.0  2017-03-28  A. Pellouchoud  Fixed toString method and changed Ball constructor params
  *  @version 1.2.0  2017-03-30  A. Pellouchoud  Wrote some test methods
  *  @version 1.3.0  2017-03-31  A. Pellouchoud
+ *  @version 1.4.0  2017-04-03  A. Pellouchoud  Cleaned up program, finished test methods
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
 import java.lang.Math;
+import java.text.DecimalFormat;
 
 public class Ball {
 
@@ -49,45 +51,26 @@ public class Ball {
     /**
      *  Method to get the ball's x position
      *  @return double-precision value of the ball's xpos
-     *  @throws
      */
      public double getBallXPOS() { return xpos; }
 
      /**
       *  Method to get the ball's y position
       *  @return double-precision value of the ball's ypos
-      *  @throws
       */
       public double getBallYPOS() { return ypos; }
 
      /**
       *  Method to get the ball's dx value
       *  @return double-precision value of the ball's dx value
-      *  @throws
       */
      public double getBallDX() { return dx; }
 
      /**
       *  Method to get the ball's dy value
       *  @return double-precision value of the ball's dy value
-      *  @throws
       */
      public double getBallDY() { return dy; }
-
-     /**
-      *  Method to set new x and y values for the ball's position
-      *  @param x x coordinate
-      *  @param y y coordinate
-      *  @throws
-      */
-     public void setBallParams( double x, double y, double a, double b ) {
-
-        xpos = x;
-        ypos = y;
-        dx = a;
-        dy = b;
-
-     }
 
      /**
      *  Method to set move the Ball
@@ -106,30 +89,52 @@ public class Ball {
      }
 
      /**
-      *  Method to print a ball information to a string
+      *  Method to print ball information to a string
       *  @return string containing ball's position and velocity
       */
      public String toString() {
 
+        DecimalFormat df = new DecimalFormat( "#0.00" );
+
        // if dx is moving less than 1 in/sec then it is at rest
-        if ( dx < ( 1 / INCHES_IN_A_FOOT ) ) {
+        if ( Math.abs( dx ) < ( 1 / INCHES_IN_A_FOOT ) ) {
            dx = 0;
         }
 
        // if dy is moving less than 1 in/sec then it is at rest
-        if ( dy < ( 1 / INCHES_IN_A_FOOT ) ) {
+        if ( Math.abs( dy ) < ( 1 / INCHES_IN_A_FOOT ) ) {
            dy = 0;
         }
 
-       return "position: (" + xpos + "," + ypos + ")" + "      velocity: (" + dx + "," + dy + ")";
+       return "position: (" + df.format(xpos) + ", " + df.format(ypos) + ")" + "          velocity: (" + df.format(dx) + ", " + df.format(dy) + ")";
      }
 
-
+     //Main program for testing
      public static void main( String args[] ) {
 
-        Ball b1 = new Ball( 1, 2, 3, 4 );
-        Ball b2 = new Ball( 1, 10, 3, 4);
-        System.out.println( b1.toString() );
+       Ball b1 = new Ball( 1, 2, 3, 4 );
+       System.out.println( b1.toString() );
+
+       //Test getBallXPOS()
+       System.out.println( "Testing getBallXPOS() :");
+       System.out.println( "Expecting 1.0: " + b1.getBallXPOS() );
+
+       //Test getBallYPOS
+       System.out.println( "\nTesting getBallYPOS() :");
+       System.out.println( "Expecting 2.0: " + b1.getBallYPOS() );
+
+       //Test getBallDX
+       System.out.println( "\nTesting getBallDX() :");
+       System.out.println( "Expecting 3.0: " + b1.getBallDX() );
+
+       //Test getBallDY
+       System.out.println( "\nTesting getBallDY() :");
+       System.out.println( "Expecting 4.0: " + b1.getBallDY() );
+
+       //Test moveBall
+       System.out.println( "\nMoving the ball using moveBall()");
+       b1.moveBall();
+       System.out.println( "New ball info: " + b1.toString() );
 
      }
 
