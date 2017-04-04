@@ -69,6 +69,18 @@ public class Field {
     }
 
     /**
+     *  Method to check if a ball is at rest
+     *  @param b1 Ball
+     *  @return boolean value true if at rest, false if still moving
+     */
+    public boolean ballAtRest( Ball b1 ) {
+
+      if ( ( b1.getBallDX() == 0 ) && ( b1.getBallDY() == 0 ) ) {
+          return true;
+      } else return false;
+    }
+
+    /**
      *  Method to check if a ball is out of bounds in the field
      *  @param b1 Ball
      *  @return boolean value true if out of the field, false if still in field
@@ -148,3 +160,4 @@ public class Field {
     }
 
 }
+
