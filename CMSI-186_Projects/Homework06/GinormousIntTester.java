@@ -90,17 +90,27 @@
 
        System.out.println( "\n    =============================================\n" );
 
-       System.out.println( "\n    Testing addInt() method: ");
+       System.out.println( "\n    ~~~ Tests for addInt() method ~~~ ");
 
-       System.out.println( "\n    Adding g1 and g2: " );
+       System.out.println( "\n    Adding g1 and g2 [Add 2 positives]: " );
        System.out.println( "      expecting: 288255819439421328030184863004881699699012568297964152383652353106\n" +
                            "        and got: " + g1.addInt( g2 ) );
 
-       System.out.println( "\n    Adding g1 and g4 [Test adding for different lengths]: " );
+       System.out.println( "\n    Adding g1 and g4 [Add positives for different lengths]: " );
        System.out.println( "      expecting: 144127909719710664015236559412160560513521376580484517041675682837\n" +
                            "        and got: " + g1.addInt( g4 ) );
 
+       System.out.println( "\n    Adding g5 and g5 [Test adding 2 negatives]: " );
+       System.out.println( "      expecting: -288255819439421328030184863004881699699012568297964152383652353106\n" +
+                           "        and got: " + g5.addInt( g5 ) );
 
+       System.out.println( "\n    =============================================\n" );
+
+      //  System.out.println( "\n    ~~~ Tests for subtractInt() method ~~~ ");
+       //
+      //  System.out.println( "\n    Subtracting g1 and g2 [Subtract same number]: " );
+      //  System.out.println( "      expecting: 0\n" +
+      //                      "        and got: " + g1.subtractInt( g2 ) );
 
        System.exit( 0 );
 
