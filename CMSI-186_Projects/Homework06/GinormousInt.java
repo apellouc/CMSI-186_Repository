@@ -159,7 +159,10 @@ public class GinormousInt {
                 i = j;
              }
 
-             for ( int k = i + 1; k < a.length; k++ ) {
+             //increment i to start next loop at empty b columns
+             i += 1;
+
+             for ( int k = i; k < a.length; k++ ) {
 
                 c[k] = a[k] + carry;
 
@@ -171,14 +174,13 @@ public class GinormousInt {
                 }
 
                 i = k;
-
              }
 
              if ( carry == 1 ) {
-                c[ i + 1 ] = 1;
-             } else c[ i + 1 ] = 0;
+                c[ a.length ] = 1;
+             } else c[ a.length ] = 0;
 
-     //Organization for signs pt. 2
+     //Organization for signs pt. 2 - If signs are different, send to subtractInt
      } else if ( ( this.sign == 0 ) && ( gint.sign == 1 ) ) {
 
         GinormousInt subHelper1 = new GinormousInt( gint.stringWithoutSign );
@@ -192,6 +194,11 @@ public class GinormousInt {
 
      //Turn c Array into a GinormousInt and return the result
      String cAsString = Arrays.toString( c ).replaceAll("\\[|\\]|,|\\s", "");
+
+     //Add negative sign if need be
+     if ( ( this.sign == 1 ) && ( gint.sign == 1) ) {
+        cAsString.concat( "-" );
+     }
      cAsString = reverser( cAsString );
 
      GinormousInt result = new GinormousInt( cAsString );
@@ -215,7 +222,7 @@ public class GinormousInt {
       byte signOfSmaller = gint.sign;    //Sign of lexicographically smaller (or =) stored here
 
       //Store sign of bigger in signOfBigger and sign of smaller in signOfSmaller
-      if ( ( this.compareTo( gint ) > 1 ) ) {
+      if ( ( this.sign < gint.sign ) ) {
          signOfBigger = gint.sign;
          signOfSmaller = this.sign;
       }
@@ -252,19 +259,33 @@ public class GinormousInt {
             c[k] = a[k];
          }
 
-      } else if ( ( gint.sign == 1 ) && ( this.sign == 0 ) ) {
+         //Turn c Array into a GinormousInt and return the result
+         String cAsString = Arrays.toString( c ).replaceAll("\\[|\\]|,|\\s", "");
+
+         //Add negative if bigger positive number was subtracted from other positive number
+         if ( ( this.compareTo( gint ) > 1 ) ) {
+            cAsString.concat( "-" );
+         }
+
+         cAsString = reverser( cAsString );
+         GinormousInt result = new GinormousInt( cAsString );
+
+         return result;
+
+      } else if ( ( this.sign == 0 ) && ( gint.sign == 1 ) ) {
 
          GinormousInt addHelper1 = new GinormousInt( gint.stringWithoutSign );
-         this.addInt( addHelper1 );
+         return this.addInt( addHelper1 );
 
+      } else if ( ( this.sign == 1 ) && ( gint.sign == 1 ) ) {
+
+         GinormousInt addHelper2 = this.addInt( gint );
+
+      } else if ( ( this.sign == 1 ) && ( gint.sign == 0 ) ) {
+
+         GinormousInt addHelper3 = this.addInt( gint );
       }
 
-
-      //Organization for signs pt. 2
-      // if ( ( ( this.sign == 0 ) && ( gint.sign == 1 ) ) ||
-      //      ( ( this.sign == 1 ) && ( gint.sign == 0 ) ) ) {
-      //
-      // }
 
       throw new UnsupportedOperationException( "\n         Sorry, that operation is not yet implemented." );
    }
