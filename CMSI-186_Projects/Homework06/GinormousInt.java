@@ -15,6 +15,7 @@
  *  @version 1.0.0  2017-04-06  A. Pellouchoud  Initial Writing and Release
  *  @version 1.1.0  2017-04-11  A. Pellouchoud  Wrote constructor
  *  @version 1.2.0  2017-04-13  A. Pellouchoud  Updated constructor, Worked on toString
+ *  @version 1.     2017-04-20  BJ Johnson      Prof. saves the day and fixes my constructor and other issues
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
@@ -28,6 +29,7 @@ public class GinormousInt {
   */
   private int[]  intArray = null;             // used for reverseString set as an array of integers for math purposes
   private byte   sign = 0;                    // "0" is positive, "1" is negative
+  private String stringValue = "";                 // Stores the inputted string
   private String stringWithoutSign = "";      // String representation of inputted string not including the sign
   private String reverseString = "";
 
@@ -43,11 +45,15 @@ public class GinormousInt {
    */
    public GinormousInt( String value ) {
 
+      stringValue = value;
+
       if ( ( value.charAt(0) == '-' ) ||
            ( value.charAt(0) == '+' ) ||
            ( ( value.length() > 1 ) && ( value.charAt(0) == '0' ) ) ) {
          stringWithoutSign = value.substring(1);
-      } else stringWithoutSign = value;
+      } else {
+         stringWithoutSign = value;
+      }
 
       //Check if string input without sign are all digits
       if ( !checkIfDigits( stringWithoutSign ) ) {
@@ -63,12 +69,13 @@ public class GinormousInt {
       reverser();
 
       //Turn inputted string into array of digits
-      this.intArray = new int[ reverseString.length() ];
+      intArray = new int[ reverseString.length() ];
 
-      for ( int i = 0; i < reverseString.length() - 1; i++ ) {
+      for ( int i = 0; i < reverseString.length(); i++ ) {
          intArray[i] = Character.digit( reverseString.charAt( i ), 10 );
       }
-
+ //System.out.println( "In GInt constructor, reverseString is: " + reverseString.toString() );
+ //System.out.print( "In GInt constructor, intArray is: " ); toArray(intArray);
    }
 
    /**
@@ -78,11 +85,11 @@ public class GinormousInt {
     */
    public static Boolean checkIfDigits( String s ) {
 
-      if ( s.length() == 0 ) {
+      int k = s.length();
+
+      if ( k == 0 ) {
          return false;
       }
-
-      int k = s.length();
 
       for ( int i = 0; i < k; i++ ) {
          if ( !Character.isDigit( s.charAt( i ) ) ) {
@@ -122,7 +129,6 @@ public class GinormousInt {
     *  Method to add the value of a GinormousIntk passed as argument to this GinormousInt using int array
     *  @param gint GinormousInt to add to this
     *  @return GinormousInt whose value is the sum of this plus the argument
-    *  @throws UnsupportedOperationException
     */
     public GinormousInt addInt( GinormousInt gint ) {
 
@@ -159,7 +165,7 @@ public class GinormousInt {
                 i = j;
              }
 
-             //increment i to start next loop at empty b columns
+             //increment i to start next loop where b array ends
              i += 1;
 
              for ( int k = i; k < a.length; k++ ) {
@@ -180,31 +186,47 @@ public class GinormousInt {
                 c[ a.length ] = 1;
              } else c[ a.length ] = 0;
 
+             //Turn c Array into a GinormousInt and return the result
+             String cAsString = Arrays.toString( c ).replaceAll("\\[|\\]|,|\\s", "");
+
+             // Added: Beej 2017-04-20
+             // check if the last character is a zero and remove it - (extra carry space could be filled with a 0)
+             if( cAsString.charAt( cAsString.length() - 1 ) == '0' ) {
+                cAsString = cAsString.substring( 0, cAsString.length() - 1 );
+             }
+
+             //Add negative sign if need be
+             if ( ( this.sign == 1 ) && ( gint.sign == 1) ) {
+                cAsString = cAsString.concat( "-" );
+             }
+
+             cAsString = reverser( cAsString );
+
+             GinormousInt result = new GinormousInt( cAsString );
+
+             return result;
+
      //Organization for signs pt. 2 - If signs are different, send to subtractInt
      } else if ( ( this.sign == 0 ) && ( gint.sign == 1 ) ) {
 
-        GinormousInt subHelper1 = new GinormousInt( gint.stringWithoutSign );
-        this.subtractInt( subHelper1 );
+        //Initializes this GinormousInt as itself to pass to subtract
+        GinormousInt addHelper1 = new GinormousInt( stringValue );
+
+        //Initializes inputted gint as a positive to pass to subtract
+        GinormousInt addHelper2 = new GinormousInt( gint.stringWithoutSign );
+
+        //Uses addHelper1 to pass this GinormousInt to subtract
+        return addHelper1.subtractInt( addHelper2 );
 
      } else if ( ( this.sign == 1 ) && ( gint.sign == 0) ) {
 
-        GinormousInt subHelper2 = new GinormousInt( this.stringWithoutSign );
-        gint.subtractInt( subHelper2 );
+        //Initializes this GinormousInt as a positive to pass to subtract
+        GinormousInt addHelper3 = new GinormousInt( this.stringWithoutSign );
+
+        return gint.subtractInt( addHelper3 );
      }
 
-     //Turn c Array into a GinormousInt and return the result
-     String cAsString = Arrays.toString( c ).replaceAll("\\[|\\]|,|\\s", "");
-
-     //Add negative sign if need be
-     if ( ( this.sign == 1 ) && ( gint.sign == 1) ) {
-        cAsString.concat( "-" );
-     }
-     cAsString = reverser( cAsString );
-
-     GinormousInt result = new GinormousInt( cAsString );
-
-     return result;
-
+     throw new UnsupportedOperationException( "\n         Sorry, that operation is not yet implemented." );
   }
 
    /**
@@ -215,20 +237,14 @@ public class GinormousInt {
     */
     public GinormousInt subtractInt( GinormousInt gint ) {
 
+      //Initializes this GinormousInt as itself to reference & pass to other methods
+      GinormousInt subHelper1 = new GinormousInt( stringValue );
+
       int[] a = intArray;        //Lexicographically bigger array (or =) stored here
       int[] b = gint.intArray;   //Lexicographically smaller array (or =) stored here
 
-      byte signOfBigger = this.sign;     //Sign of lexicographically bigger (or =) stored here
-      byte signOfSmaller = gint.sign;    //Sign of lexicographically smaller (or =) stored here
-
-      //Store sign of bigger in signOfBigger and sign of smaller in signOfSmaller
-      if ( ( this.sign < gint.sign ) ) {
-         signOfBigger = gint.sign;
-         signOfSmaller = this.sign;
-      }
-
       //POINT: Store the LEXICOGRAPHICALLY bigger number in a, and smaller in b
-      if ( ( this.compareTo( gint ) > 1 ) ) {
+      if ( ( subHelper1.compareTo( gint ) > 1 ) ) {
          a = gint.intArray;
          b = intArray;
       }
@@ -254,6 +270,8 @@ public class GinormousInt {
             j = i;
          }
 
+         i += 1;
+
          for ( int k = i; k < a.length; k++ ) {
 
             c[k] = a[k];
@@ -262,9 +280,9 @@ public class GinormousInt {
          //Turn c Array into a GinormousInt and return the result
          String cAsString = Arrays.toString( c ).replaceAll("\\[|\\]|,|\\s", "");
 
-         //Add negative if bigger positive number was subtracted from other positive number
-         if ( ( this.compareTo( gint ) > 1 ) ) {
-            cAsString.concat( "-" );
+         //Add negative sign if bigger + number was subtracted from other + number
+         if ( ( subHelper1.compareTo( gint ) > 1 ) ) {
+            cAsString = cAsString.concat( "-" );
          }
 
          cAsString = reverser( cAsString );
@@ -274,21 +292,55 @@ public class GinormousInt {
 
       } else if ( ( this.sign == 0 ) && ( gint.sign == 1 ) ) {
 
-         GinormousInt addHelper1 = new GinormousInt( gint.stringWithoutSign );
-         return this.addInt( addHelper1 );
+         //Initialize gint as a positive to pass to addInt()
+         GinormousInt subHelper2 = new GinormousInt( gint.stringWithoutSign );
+
+         return subHelper1.addInt( subHelper2 );
 
       } else if ( ( this.sign == 1 ) && ( gint.sign == 1 ) ) {
 
-         GinormousInt addHelper2 = this.addInt( gint );
+         GinormousInt subHelper3 = new GinormousInt( gint.stringWithoutSign );
+         return subHelper3.subtractInt( subHelper1 );
+
+         //Check which is lexicographically bigger, then reset the correct int[]
+         //to the version of gint without a sign (subHelper2)
+
+         //subtract like normal?
 
       } else if ( ( this.sign == 1 ) && ( gint.sign == 0 ) ) {
 
-         GinormousInt addHelper3 = this.addInt( gint );
-      }
+         //Treat it as adding two negatives
+         //Initializes gint as a negative
+         GinormousInt subHelper4 = makeNegative( gint );
 
+         return subHelper1.addInt( subHelper4 );
+      }
 
       throw new UnsupportedOperationException( "\n         Sorry, that operation is not yet implemented." );
    }
+
+   /**
+    *  Method to make a positive GinormousInt into a negative GinormousInt
+    *  Note: static method
+    *  @param  gint positive GinormousInt to be returned as negative
+    *  @return Negative version of inputted GinormousInt
+    *  @throws IllegalArgumentException
+    */
+    public static GinormousInt makeNegative( GinormousInt gint ) {
+
+      String s = new String( gint.toString() );
+
+      if ( s.charAt(0) != '-' ) {
+         throw new IllegalArgumentException( "Input is already negative" );
+      }
+
+      s = reverser( s );
+      s = s.concat( "-" );
+      s = reverser( s );
+
+      GinormousInt result = new GinormousInt( s );
+      return result;
+    }
 
    /**
     *  Method to multiply the value of a GinormousIntk passed as argument to this GinormousInt
