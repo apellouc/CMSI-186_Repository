@@ -244,7 +244,7 @@ public class GinormousInt {
       int[] b = gint.intArray;   //Lexicographically smaller array (or =) stored here
 
       //POINT: Store the LEXICOGRAPHICALLY bigger number in a, and smaller in b
-      if ( ( subHelper1.compareTo( gint ) > 1 ) ) {
+      if ( compareTo( subHelper1, gint ) < 1 ) {
          a = gint.intArray;
          b = intArray;
       }
@@ -267,7 +267,7 @@ public class GinormousInt {
 
             c[j] = a[j] - b[j];
 
-            j = i;
+            i = j;
          }
 
          i += 1;
@@ -278,10 +278,13 @@ public class GinormousInt {
          }
 
          //Turn c Array into a GinormousInt and return the result
-         String cAsString = Arrays.toString( c ).replaceAll("\\[|\\]|,|\\s", "");
+         String cAsString = Arrays.toString( c ).replaceAll( "\\[|\\]|,|\\s", "" );
 
-         //Add negative sign if bigger + number was subtracted from other + number
-         if ( ( subHelper1.compareTo( gint ) > 1 ) ) {
+         //Remove extra 0s
+
+
+         //Add negative sign if bigger pos number was subtracted from other pos number
+         if ( ( compareTo( subHelper1, gint ) < 1 ) ) {
             cAsString = cAsString.concat( "-" );
          }
 
@@ -341,6 +344,7 @@ public class GinormousInt {
       GinormousInt result = new GinormousInt( s );
       return result;
     }
+
 
    /**
     *  Method to multiply the value of a GinormousIntk passed as argument to this GinormousInt
