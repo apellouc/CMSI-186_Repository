@@ -73,6 +73,16 @@
        System.out.println( "      expecting: " + GinormousInt.TEN + "\n" +
                            "        and got: " + g8.toString() );
 
+       System.out.println( "\n    Making a ninth new GinormousInt [same length as g1 but bigger value]: " );
+       GinormousInt g9 = new GinormousInt( "582636172172723817246593010348172839121184515263674659870728973271" );
+       System.out.println( "       expecting: 582636172172723817246593010348172839121184515263674659870728973271\n" +
+                           "         and got: " + g9.toString() );
+
+       System.out.println( "\n    Making a tenth new GinormousInt [same as g9 but negative] "  );
+       GinormousInt g10 = new GinormousInt( "-582636172172723817246593010348172839121184515263674659870728973271" );
+       System.out.println( "       expecting: -582636172172723817246593010348172839121184515263674659870728973271\n" +
+                           "         and got: " + g10.toString() );
+
        System.out.println( "\n    =============================================\n" );
 
        System.out.println( "      ~~~ Tests for equals() ~~~ ");
@@ -90,13 +100,21 @@
 
        System.out.println( "\n    =============================================\n" );
 
-       System.out.println( "\n    ~~~ Tests for addInt() method ~~~ ");
+       System.out.println( "      ~~~ Tests for makeNegative() ~~~ ");
 
-      //  GinormousInt g9  = new GinormousInt( "20" );
-      //  GinormousInt g10 = new GinormousInt( "234567" );
-      //  System.out.println( "\n    Adding 20 and 234567 [Add positives of different lengths]: " );
-      //  System.out.println( "      expecting: 234587\n" +
-      //                      "        and got: " + g9.addInt( g10 ) );
+       System.out.println( "\n    Test makeNegative g3: " );
+       System.out.println( "      expecting: -144127909719710664015092431502440849849506284148982076191826176553" );
+       try { System.out.println( "        and got: " + GinormousInt.makeNegative( g3 ) ); }
+       catch ( IllegalArgumentException iae ) { System.out.println ( iae.toString() ); }
+
+       System.out.print( "\n    Test makeNegative g5: " );
+       System.out.println( "      expecting: IllegalArgumentException" );
+       try { System.out.println( "        and got: " + GinormousInt.makeNegative( g5 ) ); }
+       catch ( IllegalArgumentException iae ) { System.out.println ( iae.toString() ); }
+
+       System.out.println( "\n    =============================================\n" );
+
+       System.out.println( "\n    ~~~ Tests for addInt() method ~~~ ");
 
        System.out.println( "\n    Adding g1 and g2 [Add 2 positives]: " );
        System.out.println( "      expecting: 288255819439421328030184863004881699699012568297964152383652353106\n" +
@@ -110,22 +128,49 @@
        System.out.println( "      expecting: -288255819439421328030184863004881699699012568297964152383652353106\n" +
                            "        and got: " + g5.addInt( g5 ) );
 
-       GinormousInt g9 = new GinormousInt( "999" );
-       System.out.println( "\n    New GinormousInt g9 = 999" );
-       System.out.println( "    Adding g9 with itself [Test for extra carry at the end]: " );
+       GinormousInt g11 = new GinormousInt( "999" );
+       System.out.println( "\n    New GinormousInt g11 = 999" );
+       System.out.println( "    Adding g11 with itself [Test for extra carry at the end]: " );
        System.out.println( "      expecting: 1998\n" +
-                           "        and got: " + g9.addInt( g9 ) );
+                           "        and got: " + g11.addInt( g11 ) );
 
+       System.out.println( "\n    Adding g1 to g10 [Testing send to subtract ~ add positive + negative]: " );
+       System.out.println( "      expecting: -438508262453013153231500578845731989271678231114692583678902796718\n" +
+                           "        and got: " + g1.addInt( g10 ) );
+
+       System.out.println( "\n    Adding g10 to g1 [Testing send to subtract ~ add negative + positive]: " );
+       System.out.println( "      expecting: -438508262453013153231500578845731989271678231114692583678902796718\n" +
+                           "        and got: " + g10.addInt( g1 ) );
 
        System.out.println( "\n    =============================================\n" );
 
-       System.out.println( "\n    Subtracting g1 and g4 [Subtract two positives of different length]: " );
+       System.out.println( "\n    ~~~ Tests for subtractInt() method ~~~ ");
+
+       System.out.println( "\n    Subtracting g1 minus g4 [Subtract shorter positive from larger positive]: " );
        System.out.println( "      expecting: 144127909719710664014948303592721139185491191717479635341976670269\n" +
                            "        and got: " + g1.subtractInt( g4 ) );
+
+       System.out.println( "\n    Subtracting g4 minut g1 [Subtract larger positive from shorter positive]: " );
+       System.out.println( "      expecting: -144127909719710664014948303592721139185491191717479635341976670269\n" +
+                           "        and got: " + g4.subtractInt( g1 ) );
+
+       System.out.println( "\n    Subtracting g1 minus g5 [Testing send to addInt ~ Subract positive - negative]: " );
+       System.out.println( "      expecting: 288255819439421328030184863004881699699012568297964152383652353106\n" +
+                           "        and got: " + g1.subtractInt( g5 ) );
+
+       System.out.println( "\n    Subtracting g5 minus g1 [Testing send to addInt ~ Subract negative - positive]: " );
+       System.out.println( "      expecting: -288255819439421328030184863004881699699012568297964152383652353106\n" +
+                           "        and got: " + g5.subtractInt( g1 ) );
+
+       System.out.println( "\n    Subtracting g5 minus g10 [Subtract negative - negative] " );
+       System.out.println( "      expecting: -288255819439421328030184863004881699699012568297964152383652353106\n" +
+                           "        and got: " + g5.subtractInt( g10 ) );
 
        System.out.println( "\n    Subtracting g1 and g1 [Subtract same from itself]: " );
        System.out.println( "      expecting: 0\n" +
                            "        and got: " + g1.subtractInt( g1 ) );
+
+
 
 
        System.exit( 0 );
