@@ -74,8 +74,6 @@ public class GinormousInt {
       for ( int i = 0; i < reverseString.length(); i++ ) {
          intArray[i] = Character.digit( reverseString.charAt( i ), 10 );
       }
- //System.out.println( "In GInt constructor, reverseString is: " + reverseString.toString() );
- //System.out.print( "In GInt constructor, intArray is: " ); toArray(intArray);
    }
 
    /**
@@ -348,7 +346,27 @@ public class GinormousInt {
     */
     public GinormousInt multiply( GinormousInt gint ) {
 
+      //Initializes this GinormousInt as positive to reference & pass to other methods
+      GinormousInt mulHelper1 = new GinormousInt( stringWithoutSign );
+
+      if ( ( mulHelper1.equals(ZERO) ) || ( gint.equals(ZERO) ) ) {
+         return ZERO;
+      } else if ( mulHelper1.equals(ONE) ) {
+         return gint;
+      } else if ( gint.equals(ONE) ) {
+         return mulHelper1;
+      } else {
+
+      //    Russian Peasant Multiplication algorithm
+      //    while ( gint != 1 ) {
+      //
+      //       mulHelper1 = mulHelper1.addInt( mulHelper1 );
+      //       gint = Halver( gint.stringWithoutSign);
+
+      //    concat the sign if one inputted GinormousInt is negative
+
       throw new UnsupportedOperationException( "Sorry, that operation is not yet implemented" );
+      }
 
    }
 
@@ -429,10 +447,6 @@ public class GinormousInt {
     */
     public boolean equals( GinormousInt gint ) {
 
-      //If they're not the same length, they're not equal
-      //If they're the same length, make a loop and check through each value for equality
-
-      // does this work?
       return ( this.toString().equals( gint.toString() ) );
 
    }
@@ -462,7 +476,9 @@ public class GinormousInt {
    }
 
 
-   //MAIN PROGRAM -- redirects user to GinormousIntTester
+   /**
+   *  Main Method redirects user to GinormousIntTester
+   */
    public static void main( String[] args ) {
 
       System.out.println( "Use GinormousIntTester.java for testing!" );
