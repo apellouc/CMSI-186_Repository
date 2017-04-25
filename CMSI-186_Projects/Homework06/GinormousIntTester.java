@@ -170,8 +170,31 @@
        System.out.println( "      expecting: 0\n" +
                            "        and got: " + g1.subtractInt( g1 ) );
 
+       System.out.println( "\n    =============================================\n" );
 
+       System.out.println( "\n    ~~~ Tests for multiply() method ~~~ ");
 
+       GinormousInt g12 = new GinormousInt( "0" );
+       System.out.println( "\n    New GinormousInt g12 = 0" );
+
+       GinormousInt g13 = new GinormousInt( "1" );
+       System.out.println( "    New GinormousInt g13 = 1" );
+
+       System.out.println( "\n    Multiplying g1 by g12 [Multiply by zero]: " );
+       System.out.println( "      expecting: 0\n" +
+                           "        and got: " + g1.multiply( g12 ) );
+
+       System.out.println( "\n    Multiplying g12 by g1 [Multiply by zero ~ this = 0]: " );
+       System.out.println( "      expecting: 0\n" +
+                           "        and got: " + g12.multiply( g1 ) );
+
+       System.out.println( "\n    Multiplying g1 by g13 [Multiply by 1]: " );
+       System.out.println( "      expecting: 144127909719710664015092431502440849849506284148982076191826176553\n" +
+                           "        and got: " + g1.multiply( g13 ) );
+
+       System.out.println( "\n    Multiplying g13 by g1 [Multiply by 1 ~ this = 1]: " );
+       System.out.println( "      expecting: 144127909719710664015092431502440849849506284148982076191826176553\n" +
+                           "        and got: " + g13.multiply( g1 ) );
 
        System.exit( 0 );
 
