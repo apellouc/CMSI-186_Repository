@@ -226,7 +226,7 @@ public class GinormousInt {
         return gint.subtractInt( addHelper3 );
      }
 
-     throw new UnsupportedOperationException( "\n         Sorry, that operation is not yet implemented." );
+     throw new UnsupportedOperationException( "\n         Method does not reach this point" );
   }
 
    /**
@@ -280,9 +280,6 @@ public class GinormousInt {
          //Turn c Array into a GinormousInt and return the result
          String cAsString = Arrays.toString( c ).replaceAll( "\\[|\\]|,|\\s", "" );
 
-         //Remove extra 0s
-
-
          //Add negative sign if bigger pos number was subtracted from other pos number
          if ( ( compareTo( subHelper1, gint ) < 1 ) ) {
             cAsString = cAsString.concat( "-" );
@@ -302,24 +299,21 @@ public class GinormousInt {
 
       } else if ( ( this.sign == 1 ) && ( gint.sign == 1 ) ) {
 
+         //Treat it as positive gint minus positive THIS
          GinormousInt subHelper3 = new GinormousInt( gint.stringWithoutSign );
-         return subHelper3.subtractInt( subHelper1 );
-
-         //Check which is lexicographically bigger, then reset the correct int[]
-         //to the version of gint without a sign (subHelper2)
-
-         //subtract like normal?
+         GinormousInt subHelper4 = new GinormousInt( this.stringWithoutSign );
+         return subHelper3.subtractInt( subHelper4 );
 
       } else if ( ( this.sign == 1 ) && ( gint.sign == 0 ) ) {
 
          //Treat it as adding two negatives
          //Initializes gint as a negative
-         GinormousInt subHelper4 = makeNegative( gint );
+         GinormousInt subHelper5 = makeNegative( gint );
 
-         return subHelper1.addInt( subHelper4 );
+         return subHelper1.addInt( subHelper5 );
       }
 
-      throw new UnsupportedOperationException( "\n         Sorry, that operation is not yet implemented." );
+      throw new UnsupportedOperationException( "\n         Method does not reach this point." );
    }
 
    /**
@@ -331,9 +325,9 @@ public class GinormousInt {
     */
     public static GinormousInt makeNegative( GinormousInt gint ) {
 
-      String s = new String( gint.toString() );
+      String s = new String( gint.stringValue );
 
-      if ( s.charAt(0) != '-' ) {
+      if ( s.charAt(0) == '-' ) {
          throw new IllegalArgumentException( "Input is already negative" );
       }
 
