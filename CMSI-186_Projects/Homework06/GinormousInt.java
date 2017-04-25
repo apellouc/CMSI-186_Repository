@@ -29,12 +29,13 @@ public class GinormousInt {
   */
   private int[]  intArray = null;             // used for reverseString set as an array of integers for math purposes
   private byte   sign = 0;                    // "0" is positive, "1" is negative
-  private String stringValue = "";                 // Stores the inputted string
+  private String stringValue = "";            // Stores the inputted string
   private String stringWithoutSign = "";      // String representation of inputted string not including the sign
   private String reverseString = "";
 
   public static final GinormousInt ZERO = new GinormousInt( "0" );
   public static final GinormousInt ONE = new GinormousInt( "1" );
+  public static final GinormousInt TWO = new GinormousInt( "2" );
   public static final GinormousInt TEN = new GinormousInt( "10" );
 
   /**
@@ -346,8 +347,12 @@ public class GinormousInt {
     */
     public GinormousInt multiply( GinormousInt gint ) {
 
-      //Initializes this GinormousInt as positive to reference & pass to other methods
+      //Initializes GinormousInts as positive to multiply
       GinormousInt mulHelper1 = new GinormousInt( stringWithoutSign );
+      GinormousInt mulHelper2 = new GinormousInt( gint.stringWithoutSign);
+
+      GinormousInt sum = new GinormousInt( "0" );
+      Halver h = new Halver();
 
       if ( ( mulHelper1.equals(ZERO) ) || ( gint.equals(ZERO) ) ) {
          return ZERO;
@@ -357,17 +362,26 @@ public class GinormousInt {
          return mulHelper1;
       } else {
 
-      //    Russian Peasant Multiplication algorithm
-      //    while ( gint != 1 ) {
-      //
-      //       mulHelper1 = mulHelper1.addInt( mulHelper1 );
-      //       gint = Halver( gint.stringWithoutSign);
+         //Russian Peasant Multiplication algorithm
+         while ( !mulHelper2.equals(ONE) ) {
 
-      //    concat the sign if one inputted GinormousInt is negative
+            mulHelper1 = mulHelper1.addInt( mulHelper1 );
+            mulHelper2 = new GinormousInt( h.halve( mulHelper2.toString() ) );
 
-      throw new UnsupportedOperationException( "Sorry, that operation is not yet implemented" );
+               if ( !mulHelper1.isEven() ) {
+                  sum = sum.addInt( mulHelper1 );
+               }
+         }
+
+         //concat the sign if one inputted GinormousInt is negative
+         if ( ( ( this.sign == 1 ) && ( gint.sign == 0 ) ) ||
+            ( ( gint.sign ==1 )  && ( this.sign == 0 ) ) ) {
+               sum = new GinormousInt( reverser( sum.reverseString.concat( "-" ) ) );
+           }
+
+         return sum;
+
       }
-
    }
 
     /**
@@ -382,6 +396,18 @@ public class GinormousInt {
 
    }
 
+   /**
+   *  Method to determine if a GinormousInt is even
+   *  @param  gint         GinormousInt to determine if is even
+   *  @return boolean true if GinormousInt input is Even
+   */
+   public boolean isEven() {
+
+      if ( ( this.intArray[0] % 2 ) == 0 ) {
+         return true;
+      } else { return false; }
+
+   }
 
     /**
     *  Method to get the remainder of division of this GinormousInt by the one passed as argument
