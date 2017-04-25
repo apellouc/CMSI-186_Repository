@@ -119,15 +119,14 @@
 
        System.out.println( "\n    =============================================\n" );
 
-      //  System.out.println( "\n    Subtracting g1 and g4 [Subtract 2 positives]: " );
-      //  System.out.println( "      expecting: 0\n" +
-      //                      "        and got: " + g1.subtractInt( g4 ) );
+       System.out.println( "\n    Subtracting g1 and g4 [Subtract two positives of different length]: " );
+       System.out.println( "      expecting: 144127909719710664014948303592721139185491191717479635341976670269\n" +
+                           "        and got: " + g1.subtractInt( g4 ) );
 
-      //  System.out.println( "\n    ~~~ Tests for subtractInt() method ~~~ ");
-      //
-      //  System.out.println( "\n    Subtracting g1 and g2 [Subtract same number]: " );
-      //  System.out.println( "      expecting: 0\n" +
-      //                      "        and got: " + g1.subtractInt( g2 ) );
+       System.out.println( "\n    Subtracting g1 and g1 [Subtract same from itself]: " );
+       System.out.println( "      expecting: 0\n" +
+                           "        and got: " + g1.subtractInt( g1 ) );
+
 
        System.exit( 0 );
 
