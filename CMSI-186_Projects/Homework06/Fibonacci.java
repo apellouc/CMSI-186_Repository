@@ -2,7 +2,7 @@
  *  File name     :  Fibonacci.java
  *  Purpose       :
  *  @author       :  Amy Pellouchoud
- *  Date written  :  2017-03-21
+ *  Date written  :  2017-04-06
  *  Description   :
  *  Notes         :  None
  *  Warnings      :  None
@@ -16,8 +16,6 @@
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
- // 0, 1, 1, 2, 3, 5, 8, 13, 21, etc
-
 public class Fibonacci {
 
    /**
@@ -30,7 +28,7 @@ public class Fibonacci {
     private static GinormousInt n3 = new GinormousInt( "0" );
 
     /**
-     *  Constructor validates arg, takes input number, creates array of size needed
+     *  Constructor validates arg, takes input number and resets variables
      *  @param value the number fibonacci number the user wants returned.
      *  @return the (value)th fibonacci number in the sequence
      *  @throws IllegalArgumentException
