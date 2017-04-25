@@ -24,11 +24,10 @@ public class Fibonacci {
     *  Class field definintions
     */
     private static String storedValue = "";
-    private static GinormousInt[] gintArray = null;
     private static int i1 = 0;
-    private GinormousInt n1 = new GinormousInt( "0" );
-    private GinormousInt n2 = new GinormousInt( "1" );
-    private GinormousInt n3 = n1.addInt( n2 );
+    private static GinormousInt n1 = new GinormousInt( "0" );
+    private static GinormousInt n2 = new GinormousInt( "1" );
+    private static GinormousInt n3 = new GinormousInt( "0" );
 
     /**
      *  Constructor validates arg, takes input number, creates array of size needed
@@ -44,16 +43,11 @@ public class Fibonacci {
 
         storedValue = value;
 
-        i1 = Integer.parseInt( storedValue );
+        i1 = Integer.parseInt( value );
 
-        gintArray = new GinormousInt[ i1 ];
+        for ( int i = 2; i < i1; i++) {
 
-        gintArray[0] = n1;
-        gintArray[1] = n2;
-
-        for ( int i = 2; i <= i1; i++) {
-
-           gintArray[i] = n3;
+           n3 = n1.addInt( n2 );
 
            n1 = n2;
            n2 = n3;
@@ -73,11 +67,8 @@ public class Fibonacci {
 
         Fibonacci f1 = new Fibonacci( args[0] );
 
-        GinormousInt result = gintArray[ i1 ];
-        String s = result.toString();
-
         System.out.println( "Starting from zero, the " + storedValue +
-                            "th Fibonacci number is " + s );
+                            "th Fibonacci number is " + n3.toString() );
      }
 
 }
