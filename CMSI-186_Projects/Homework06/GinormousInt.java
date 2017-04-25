@@ -347,7 +347,7 @@ public class GinormousInt {
     */
     public GinormousInt multiply( GinormousInt gint ) {
 
-      //Initializes GinormousInts as positive to multiply
+      //Initializes GinormousInts as positive to manipulate and multiply
       GinormousInt mulHelper1 = new GinormousInt( stringWithoutSign );
       GinormousInt mulHelper2 = new GinormousInt( gint.stringWithoutSign);
 
@@ -363,12 +363,12 @@ public class GinormousInt {
       } else {
 
          //Russian Peasant Multiplication algorithm
-         while ( !mulHelper2.equals(ONE) ) {
+         while ( mulHelper2.equals(ONE) != true ) {
 
             mulHelper1 = mulHelper1.addInt( mulHelper1 );
             mulHelper2 = new GinormousInt( h.halve( mulHelper2.toString() ) );
 
-               if ( !mulHelper1.isEven() ) {
+               if ( !mulHelper2.isEven() ) {
                   sum = sum.addInt( mulHelper1 );
                }
          }
