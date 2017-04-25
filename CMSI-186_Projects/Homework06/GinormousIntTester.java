@@ -92,6 +92,12 @@
 
        System.out.println( "\n    ~~~ Tests for addInt() method ~~~ ");
 
+      //  GinormousInt g9  = new GinormousInt( "20" );
+      //  GinormousInt g10 = new GinormousInt( "234567" );
+      //  System.out.println( "\n    Adding 20 and 234567 [Add positives of different lengths]: " );
+      //  System.out.println( "      expecting: 234587\n" +
+      //                      "        and got: " + g9.addInt( g10 ) );
+
        System.out.println( "\n    Adding g1 and g2 [Add 2 positives]: " );
        System.out.println( "      expecting: 288255819439421328030184863004881699699012568297964152383652353106\n" +
                            "        and got: " + g1.addInt( g2 ) );
@@ -104,10 +110,21 @@
        System.out.println( "      expecting: -288255819439421328030184863004881699699012568297964152383652353106\n" +
                            "        and got: " + g5.addInt( g5 ) );
 
+       GinormousInt g9 = new GinormousInt( "999" );
+       System.out.println( "\n    New GinormousInt g9 = 999" );
+       System.out.println( "    Adding g9 with itself [Test for extra carry at the end]: " );
+       System.out.println( "      expecting: 1998\n" +
+                           "        and got: " + g9.addInt( g9 ) );
+
+
        System.out.println( "\n    =============================================\n" );
 
+      //  System.out.println( "\n    Subtracting g1 and g4 [Subtract 2 positives]: " );
+      //  System.out.println( "      expecting: 0\n" +
+      //                      "        and got: " + g1.subtractInt( g4 ) );
+
       //  System.out.println( "\n    ~~~ Tests for subtractInt() method ~~~ ");
-       //
+      //
       //  System.out.println( "\n    Subtracting g1 and g2 [Subtract same number]: " );
       //  System.out.println( "      expecting: 0\n" +
       //                      "        and got: " + g1.subtractInt( g2 ) );
@@ -115,4 +132,4 @@
        System.exit( 0 );
 
     }
- }
+}
